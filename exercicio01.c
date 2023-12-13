@@ -3,69 +3,62 @@
 #include <locale.h>
 #include <string.h>
 
-
-struct ficha_contatos
-{
-    char nome[200];
-    char telefone[200];
-    char email[200];
-};
-
 #define TAM 3
 
-char* buscar_telefone(struct ficha_contatos contatos[], int num_contatos, char* nome)
-{
-    int i;
-    for (i = 0; i < num_contatos; i++)
-    {
-        if (strcmp(contatos[i].nome, nome) == 0)
-        {
+void limpartela (){
+    system("cls || clear");
+}
+
+struct info_contatos {
+	char nome[200];
+	char telefone[200];
+	char email[200];
+};
+
+char* buscar_nome(struct info_contatos contatos[], char* nome) {
+	int i;
+    for (i = 0; i < TAM; i++) {
+        if (strcmp(contatos[i].nome, nome) == 0) {
             return contatos[i].telefone;
         }
     }
-
-    return "Contato não cadastrado!";
+	return "Contato nÃ£o cadastrado!";
 }
 
-int main()
-{
-    setlocale(LC_ALL, "portuguese");
-
-    struct ficha_contatos contatos[3];
-
-    int i;
-    char busca_nome[200];
-
-    for (i = 0; i < TAM; i++)
-    {
-        printf("Informações do %dº usuário: \n \n", i + 1);
-
-        printf("Nome: ");
+int main (){
+	setlocale(LC_ALL, "portuguese");
+	
+	struct info_contatos contatos[TAM];
+	
+	int i;
+	char busca[200];
+	char* resultado_busca;
+	
+	for (i = 0; i < TAM; i++) {
+        printf("Cadastro do %dÂº contato: \n\n", i + 1);
+        
+		printf("Nome: ");
         gets(contatos[i].nome);
-
-        printf("Email: ");
-        gets(contatos[i].email);
-
-        printf("Telefone: ");
+        
+		printf("Telefone: ");
         gets(contatos[i].telefone);
-
+        
+		printf("Email: ");
+        gets(contatos[i].email);
+        
         fflush(stdin);
-        system("cls || clear");
+        limpartela();
     }
-
-    printf("Busque o contato desejado pelo nome: ");
-    gets(busca_nome);
-
-    char* telefone_encontrado = buscar_telefone(contatos, TAM, busca_nome);
-
-    if(telefone_encontrado != 0)
-    {
-        printf("Telefone: %s \n", telefone_encontrado);
-    }
-    else 
-    {
-        printf("Contato não encontrado! \n");
-    }
-
-    return 0;
+    
+    printf("Digite o nome para fazer a busca do contato: ");
+    gets(busca);
+    
+	resultado_busca = buscar_nome(contatos, busca);
+	
+	limpartela();
+	
+	printf("%-20s %-20s \n", "Nome", "Telefone");
+	printf("%-20s %-20s \n", busca, resultado_busca);
+	
+	return 0;
 }
